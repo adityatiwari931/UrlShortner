@@ -2,7 +2,7 @@ URL Hashing System
 
 
 Overview
-The URL Hashing System is designed to shorten long URLs while preserving query parameters and allowing click tracking. The system provides an easy-to-use API for generating and resolving shortened URLs. This application is built using Java and Spring Boot, with URL hashing handled via SHA-256, and data persistence managed using MySQL.
+The URL Hashing System is designed to shorten long URLs while preserving query parameters and allowing click tracking. The system provides an easy-to-use API for generating and resolving shortened URLs. This application is built using Java and Spring Boot, and data persistence managed using MySQL.
 
 The system ensures privacy by using hashed URLs that do not reveal any identifiable data and includes click tracking to monitor how often a short URL has been used. It is scalable and can be deployed on various platforms, including AWS using serverless technologies like AWS Lambda and API Gateway.
 
@@ -18,7 +18,7 @@ This layer is responsible for receiving and responding to API requests, ensuring
 
 Service Layer:
 Contains the core business logic.
-Handles URL hashing (via SHA-256), stores URL mappings in the database, and retrieves them for resolving.
+ stores URL mappings in the database, and retrieves them for resolving.
 Tracks clicks whenever a shortened URL is accessed.
 Encapsulates logic for URL shortening and resolving, making the system modular and maintainable.
 Database Layer (MySQL):
@@ -47,8 +47,6 @@ A client requests the shortened URL by sending a GET request to the /resolve/{ha
 The system looks up the original long URL from the database based on the hash.
 If found, the click count is incremented, and the server returns the original long URL.
 If the URL is not found, the system returns a 404 error.
-Key Design Decisions
-Privacy via Hashing: We opted for SHA-256 hashing because it is secure, fast, and widely supported. By using hashing, we ensure that no sensitive information (like query parameters) is exposed in the shortened URL.
 
 Stateless API: The API is designed to be stateless, meaning each request is self-contained and does not rely on previous interactions. This helps with scalability, as instances of the API can be easily replicated.
 
@@ -58,15 +56,11 @@ Click Tracking: We included click tracking to provide useful metrics, such as ho
 
 Modular Structure: The service layer encapsulates the business logic, making the application easier to maintain and extend. If future requirements arise (e.g., support for custom aliases), changes can be made in the service layer without affecting other components.
 
-Scalability Considerations: The architecture is scalable both horizontally and vertically. By using Spring Boot, the system can easily be deployed across multiple servers or containers. Additionally, by integrating with AWS services (such as DynamoDB or Lambda), the system can be made fully serverless, which increases scalability and reduces operational overhead.
-
 Technology Stack
 Java: Core programming language used for implementing the application logic.
 Spring Boot: Framework used to build the RESTful API, handle dependency injection, and manage application configuration.
 MySQL: Relational database used to store URL mappings and click counts.
 Spring Data JPA: Simplifies database interactions by providing an abstraction layer for working with MySQL.
-SHA-256 Hashing: Used to create privacy-preserving short URLs.
-JUnit: For unit testing the service and controller layers to ensure reliability.
 Postman: For testing the REST APIs during development.
 Key Features
 URL Shortening:
